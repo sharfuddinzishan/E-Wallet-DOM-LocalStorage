@@ -17,13 +17,13 @@ function invokeTransaction() {
     if (!noteInput || amountInput <= 0) {
         return
     }
-    let walletParse = JSON.parse(getWallet());
-    let statementParse = JSON.parse(getStatement());
+    // walletParse = JSON.parse(getWallet());
+    // statementParse = JSON.parse(getStatement());
 
-    let walletUpdate = updateWallet(walletParse, typeInput, amountInput);
-    let statementUpdate = updateStatement(statementParse, typeInput, amountInput, noteInput, new Date().toUTCString())
-    balanceSectionUpdate(walletUpdate);
-    statementSectionUpdate(statementUpdate);
+    updateWallet(walletParse, typeInput, amountInput);
+    updateStatement(statementParse, typeInput, amountInput, noteInput, new Date().toUTCString())
+    balanceSectionUpdate(walletParse);
+    statementSectionUpdate(statementParse);
 }
 
 let getWallet = () => {
@@ -49,7 +49,7 @@ let updateWallet = (walletObj, actionType, amountGiven) => {
         walletObj.balance = walletObj.income - walletObj.expense;
     }
     localStorage.setItem('wallet', JSON.stringify(walletObj));
-    return walletObj;
+    // return walletObj;
 }
 let balanceSectionUpdate = walletObj => {
     let { income, expense, balance } = walletObj;
@@ -74,7 +74,7 @@ let updateStatement = (statementsArray, typeTransaction, amountRequest, textSumm
     statementObj.type = typeTransaction == 1 ? '+' : '-';
     statementsArray.unshift(statementObj);
     localStorage.setItem('statement', JSON.stringify(statementsArray));
-    return statementsArray;
+    // return statementsArray;
 }
 let statementSectionUpdate = statementsArray => {
     transactionHistory.innerHTML = "";
@@ -91,3 +91,8 @@ let statementSectionUpdate = statementsArray => {
         transactionHistory.appendChild(listItem);
     });
 }
+
+let walletParse = JSON.parse(getWallet());
+let statementParse = JSON.parse(getStatement());
+balanceSectionUpdate(walletParse);
+statementSectionUpdate(statementParse);
