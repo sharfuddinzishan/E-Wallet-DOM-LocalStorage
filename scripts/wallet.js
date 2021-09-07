@@ -18,7 +18,8 @@ function invokeTransaction() {
         return
     }
     let parseWallet = JSON.parse(getWallet());
-    updateWallet(parseWallet, typeInput, amountInput);
+    let objWallet = updateWallet(parseWallet, typeInput, amountInput);
+    updateBalanceSection(objWallet)
 }
 
 let getWallet = () => {
@@ -44,4 +45,11 @@ let updateWallet = (walletObj, actionType, amountGiven) => {
         walletObj.balance = walletObj.income - walletObj.expense;
     }
     localStorage.setItem('wallet', JSON.stringify(walletObj));
+    return walletObj;
+}
+let updateBalanceSection = walletObj => {
+    let { income, expense, balance } = walletObj;
+    totalBalance.innerText = balance;
+    totalIncome.innerText = income;
+    totalExpenses.innerText = expense;
 }
