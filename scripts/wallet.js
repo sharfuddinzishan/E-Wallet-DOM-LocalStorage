@@ -17,9 +17,13 @@ function invokeTransaction() {
     if (!noteInput || amountInput <= 0) {
         return
     }
-    let parseWallet = JSON.parse(getWallet());
-    let objWallet = updateWallet(parseWallet, typeInput, amountInput);
-    updateBalanceSection(objWallet)
+    let walletParse = JSON.parse(getWallet());
+    let statementParse = JSON.parse(getStatement());
+
+    let walletUpdate = updateWallet(walletParse, typeInput, amountInput);
+    let statementUpdate = updateStatement(statementParse, typeInput, amountInput, noteInput, new Date().toUTCString())
+    balanceSectionUpdate(walletUpdate);
+    // statementSectionUpdate(statementParse);
 }
 
 let getWallet = () => {
@@ -47,9 +51,32 @@ let updateWallet = (walletObj, actionType, amountGiven) => {
     localStorage.setItem('wallet', JSON.stringify(walletObj));
     return walletObj;
 }
-let updateBalanceSection = walletObj => {
+let balanceSectionUpdate = walletObj => {
     let { income, expense, balance } = walletObj;
     totalBalance.innerText = balance;
     totalIncome.innerText = income;
     totalExpenses.innerText = expense;
+}
+let getStatement = () => {
+    if (localStorage.getItem("statement"))
+        return localStorage.getItem("statement");
+    else {
+        const statementInfo = [{
+            summary: "",
+            time: "",
+            amount: 0,
+            type: "+"
+        }];
+        localStorage.setItem('statement', JSON.stringify(statementInfo));
+        return localStorage.getItem("statement");
+    }
+}
+let updateStatement = (statementArray, typeTransaction, amountRequest, textSummary, triggerTime) => {
+    let statementObj = {};
+    statementObj.summary = textSummary;
+    statementObj.time = triggerTime;
+    statementObj.amount = amountRequest;
+    statementObj.type = typeTransaction == 1 ? '+' : '-';
+    statementArray.unshift(statementObj);
+    localStorage.setItem('statement', JSON.stringify(statementArray));
 }
