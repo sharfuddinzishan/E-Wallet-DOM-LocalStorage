@@ -23,7 +23,7 @@ function invokeTransaction() {
     let walletUpdate = updateWallet(walletParse, typeInput, amountInput);
     let statementUpdate = updateStatement(statementParse, typeInput, amountInput, noteInput, new Date().toUTCString())
     balanceSectionUpdate(walletUpdate);
-    // statementSectionUpdate(statementParse);
+    statementSectionUpdate(statementUpdate);
 }
 
 let getWallet = () => {
@@ -61,22 +61,33 @@ let getStatement = () => {
     if (localStorage.getItem("statement"))
         return localStorage.getItem("statement");
     else {
-        const statementInfo = [{
-            summary: "",
-            time: "",
-            amount: 0,
-            type: "+"
-        }];
+        const statementInfo = [];
         localStorage.setItem('statement', JSON.stringify(statementInfo));
         return localStorage.getItem("statement");
     }
 }
-let updateStatement = (statementArray, typeTransaction, amountRequest, textSummary, triggerTime) => {
+let updateStatement = (statementsArray, typeTransaction, amountRequest, textSummary, triggerTime) => {
     let statementObj = {};
     statementObj.summary = textSummary;
     statementObj.time = triggerTime;
     statementObj.amount = amountRequest;
     statementObj.type = typeTransaction == 1 ? '+' : '-';
-    statementArray.unshift(statementObj);
-    localStorage.setItem('statement', JSON.stringify(statementArray));
+    statementsArray.unshift(statementObj);
+    localStorage.setItem('statement', JSON.stringify(statementsArray));
+    return statementsArray;
+}
+let statementSectionUpdate = statementsArray => {
+    transactionHistory.innerHTML = "";
+    statementsArray.forEach(statement => {
+        let listItem = document.createElement('li');
+        listItem.className = "list-group-item list-group-item-action text-break";
+        listItem.innerHTML = `
+            <div class="d-flex flex-column flex-sm-row justify-content-between">
+                <h5 class="mb-1 fw-bold">${statement.summary}</h5>
+                <small class="text-danger fw-bold fs-3">${statement.type + '$' + statement.amount}</small>
+            </div>
+            <small class="text-muted">${statement.time}</small>
+            `
+        transactionHistory.appendChild(listItem);
+    });
 }
