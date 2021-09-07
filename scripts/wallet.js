@@ -11,8 +11,37 @@ const transactionHistory = document.getElementById('transactionHistory');
 transactionSubmit.addEventListener('click', invokeTransaction);
 
 function invokeTransaction() {
-    let type = transactionType.value;
-    let note = transactionNote.value;
-    let amount = transactionAmount.value;
-    console.log(type, note, amount)
+    let typeInput = parseInt(transactionType.value);
+    let noteInput = transactionNote.value;
+    let amountInput = parseInt(transactionAmount.value);
+    if (!noteInput || amountInput <= 0) {
+        return
+    }
+    let parseWallet = JSON.parse(getWallet());
+    updateWallet(parseWallet, typeInput, amountInput);
+}
+
+let getWallet = () => {
+    if (localStorage.getItem("wallet"))
+        return localStorage.getItem("wallet");
+    else {
+        const walletInfo = {
+            income: 0,
+            expense: 0,
+            balance: 0
+        };
+        localStorage.setItem('wallet', JSON.stringify(walletInfo));
+        return localStorage.getItem("wallet");
+    }
+}
+let updateWallet = (walletObj, actionType, amountGiven) => {
+    if (actionType) {
+        walletObj.income += amountGiven;
+        walletObj.balance = walletObj.income - walletObj.expense;
+    }
+    else {
+        walletObj.expense += amountGiven;
+        walletObj.balance = walletObj.income - walletObj.expense;
+    }
+    localStorage.setItem('wallet', JSON.stringify(walletObj));
 }
