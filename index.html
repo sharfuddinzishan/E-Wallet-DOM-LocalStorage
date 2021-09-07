@@ -71,15 +71,16 @@
                         </div>
                         <!-- Transaction Note  -->
                         <div class="mx-auto col-10 col-sm-7">
-                            <input id="notes" type="text" class="form-control" placeholder="Add Notes">
+                            <input id="transactionNote" type="text" class="form-control" placeholder="Add Notes">
                         </div>
                         <!-- Amount  -->
                         <div class="mx-auto col-10 col-sm-2">
-                            <input id="amount" type="number" min="1" class="form-control" placeholder="Amount">
+                            <input id="transactionAmount" type="number" min="1" class="form-control"
+                                placeholder="Amount">
                         </div>
                         <!-- Submit Button  -->
                         <div class="mx-auto col-10 col-sm-1">
-                            <button id="submitButton" class="btn btn-outline-secondary" type="button">
+                            <button id="transactionSubmit" class="btn btn-outline-secondary" type="button">
                                 <span><i class="far fa-check-circle"></i></span>
                             </button>
                         </div>
@@ -91,7 +92,7 @@
         <section class="mt-3">
             <div class="row">
                 <div class="col-10 col-sm-8 mx-auto">
-                    <div id="history" class="list-group list-group-flush rounded-3 shadow-lg">
+                    <div id="transactionHistory" class="list-group list-group-flush rounded-3 shadow-lg">
                         <!-- Single History List Item -->
                         <div class="list-group-item list-group-item-action text-break">
                             <div class="d-flex flex-column flex-sm-row justify-content-between">
@@ -103,7 +104,6 @@
                     </div>
                 </div>
             </div>
-
         </section>
     </div>
     <!-- Bootstrap JS -->
