@@ -42,6 +42,7 @@
                 <p>Total Balance</p>
                 <p id="totalBalance" class="fs-1 fw-bold"></p>
             </div>
+            <!-- Income and Expense  -->
             <div class="row justify-content-around gy-2">
                 <!-- Income  -->
                 <div class="col-11 col-sm-4">
@@ -65,34 +66,45 @@
         </header>
         <!-- Amount Input section  -->
         <section class="bg-light shadow-lg">
-            <div class="row p-2">
-                <div class="col-8 mx-auto p-0">
+            <!-- Transaction Type Note Amount -->
+            <div class="row py-2">
+                <div class="col-10 mx-auto">
                     <div class="row g-1">
                         <!-- Transaction Type  -->
-                        <div class="mx-auto col-10 col-sm-2">
+                        <div class="mx-auto col-10 col-md-2">
                             <select id="transactionType" class="form-select">
                                 <option selected value="1">+</option>
                                 <option value="0">-</option>
                             </select>
                         </div>
                         <!-- Transaction Note  -->
-                        <div class="mx-auto col-10 col-sm-7">
+                        <div class="mx-auto col-10 col-md-7">
                             <input id="transactionNote" type="text" class="form-control" placeholder="Add Notes">
                         </div>
                         <!-- Amount  -->
-                        <div class="mx-auto col-10 col-sm-2">
+                        <div class="mx-auto col-10 col-md-3">
                             <input id="transactionAmount" type="number" min="1" class="form-control"
                                 placeholder="Amount">
-                        </div>
-                        <!-- Submit Button  -->
-                        <div class="mx-auto col-10 col-sm-1">
-                            <button id="transactionSubmit" class="btn btn-outline-secondary" type="button">
-                                <span><i class="far fa-check-circle"></i></span>
-                            </button>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- Button Section  -->
+            <div class="row py-2">
+                <div class="col-10 col-md-3 col-sm-4 mx-auto">
+                    <div class="d-grid gap-2">
+                        <!-- Submit Button  -->
+                        <button id="transactionSubmit" class="btn btn-outline-secondary" type="button">
+                            <span><i class="far fa-check-circle"></i></span>
+                        </button>
+                        <!-- Clear Button  -->
+                        <button id="statementClear" class="btn btn-warning">
+                            <span class="text-danger fw-bold">Clear?</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Error Input  -->
             <div id="inputError" class="text-center pt-1 pb-3 d-none">
                 <small class="text-danger fw-bold fst-italic">Invalid Request</small>
             </div>

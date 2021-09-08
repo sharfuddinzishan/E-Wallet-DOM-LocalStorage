@@ -11,7 +11,21 @@ const transactionAmount = document.getElementById('transactionAmount');
 const transactionSubmit = document.getElementById('transactionSubmit');
 const transactionHistory = document.getElementById('transactionHistory');
 const inputError = document.getElementById('inputError');
+const statementClear = document.getElementById('statementClear');
 
+/*****************************************
+ * When Clear Button Triggered
+ * **************************** ********/
+statementClear.addEventListener('click', clearTransaction);
+function clearTransaction() {
+    let promptMessage = confirm('Do You Want To Clear All Transaction History?');
+    if (promptMessage) {
+        if (localStorage.getItem("wallet")) localStorage.removeItem("wallet");
+        if (localStorage.getItem("statement")) localStorage.removeItem("statement");
+        clearInput();
+        onLoadPage();
+    }
+}
 /********************************************
  * When Submit Button Triggered
  * **************************************** */
@@ -28,17 +42,45 @@ function invokeTransaction() {
     }
     // Hide Error 
     displayInputError(0);
+    // Clear Input Fields 
+    clearInput();
     // Update localStorage Statement Key
-    updateStatement(statementParse, typeInput, amountInput, noteInput, new Date().toUTCString());
+    updateStatement(getLocalAsObject().statementParse, typeInput, amountInput, noteInput, new Date().toUTCString());
     // Update localStorage Wallet Key 
-    updateWallet(walletParse, typeInput, amountInput);
+    updateWallet(getLocalAsObject().walletParse, typeInput, amountInput);
     // Update Page Balance and Statement Section 
-    balanceSectionUpdate(walletParse);
-    statementSectionUpdate(statementParse);
+    balanceSectionUpdate(getLocalAsObject().walletParse);
+    statementSectionUpdate(getLocalAsObject().statementParse);
 }
-
+/*************************************
+ * onLoad Page Function
+ * ********************************* */
+let onLoadPage = () => {
+    // Disable Display Error Message
+    displayInputError(0);
+    // Display Data from localStorage to Page
+    balanceSectionUpdate(getLocalAsObject().walletParse);
+    statementSectionUpdate(getLocalAsObject().statementParse);
+}
+/*************************************
+ * Clear Input fields
+ * ********************************* */
+let clearInput = () => {
+    transactionType.value = 1;
+    transactionNote.value = '';
+    transactionAmount.value = '';
+}
 /*****************************************
- * Get Item From Local Storage
+ * Get Item as object From Local Storage
+ * ************************************ */
+let getLocalAsObject = () => {
+    return {
+        walletParse: JSON.parse(getWallet()),
+        statementParse: JSON.parse(getStatement())
+    }
+}
+/*****************************************
+ * Get Item as JSON Stringify From Local Storage
  * ************************************ */
 let getWallet = () => {
     if (localStorage.getItem("wallet"))
@@ -126,13 +168,5 @@ let displayInputError = (isDisplayed) => {
         inputError.classList.toggle('d-none', true)
     }
 }
-/*************************************
- * onLoad Page Action
- * ********************************* */
-displayInputError(0); // Disable Display Error Message 
-// Get Data From Local Storage 
-let walletParse = JSON.parse(getWallet());
-let statementParse = JSON.parse(getStatement());
-// Display Data from localStorage to Page
-balanceSectionUpdate(walletParse);
-statementSectionUpdate(statementParse);
+// Function Calls when Page is opened
+onLoadPage();
