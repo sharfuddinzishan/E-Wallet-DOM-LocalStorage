@@ -7,6 +7,7 @@ const transactionNote = document.getElementById('transactionNote');
 const transactionAmount = document.getElementById('transactionAmount');
 const transactionSubmit = document.getElementById('transactionSubmit');
 const transactionHistory = document.getElementById('transactionHistory');
+const inputError = document.getElementById('inputError');
 
 transactionSubmit.addEventListener('click', invokeTransaction);
 
@@ -15,13 +16,14 @@ function invokeTransaction() {
     let noteInput = transactionNote.value;
     let amountInput = parseInt(transactionAmount.value);
     if (!noteInput || amountInput <= 0) {
-        return
+        displayInputError(1);
+        return;
     }
     // walletParse = JSON.parse(getWallet());
     // statementParse = JSON.parse(getStatement());
-
-    updateWallet(walletParse, typeInput, amountInput);
+    displayInputError(0);
     updateStatement(statementParse, typeInput, amountInput, noteInput, new Date().toUTCString())
+    updateWallet(walletParse, typeInput, amountInput);
     balanceSectionUpdate(walletParse);
     statementSectionUpdate(statementParse);
 }
@@ -91,7 +93,15 @@ let statementSectionUpdate = statementsArray => {
         transactionHistory.appendChild(listItem);
     });
 }
-
+let displayInputError = (isDisplayed) => {
+    if (isDisplayed) {
+        inputError.classList.toggle('d-none', false)
+    }
+    else {
+        inputError.classList.toggle('d-none', true)
+    }
+}
+displayInputError(0);
 let walletParse = JSON.parse(getWallet());
 let statementParse = JSON.parse(getStatement());
 balanceSectionUpdate(walletParse);
