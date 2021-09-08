@@ -20,17 +20,24 @@
 <body>
     <div class="container">
         <!-- header section  -->
-        <header id="header" class="bg-success bg-gradient pb-4">
+        <header id="header" class="bg-gradient pb-3">
             <!-- Logo Text Section  -->
-            <nav class="navbar">
+            <nav class="navbar navbar-expand-sm navbar-light">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#">
                         <img src="images/icons/e-wallet logo.png" alt="" width="50" height="50" class="d-inline-block">
-                        <span class="text-light logo-text fst-italic fs-1 ps-3">eWallet</span>
                     </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
+                        <span class="text-light logo-text fst-italic fs-1 ps-3">eWallet</span>
+                    </div>
                 </div>
             </nav>
-            <!-- Total Balance Section -->
+            <!-- Total Balance -->
             <div class="text-light fs-4 text-center">
                 <p>Total Balance</p>
                 <p id="totalBalance" class="fs-1 fw-bold"></p>
